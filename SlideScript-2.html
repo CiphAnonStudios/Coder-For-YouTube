@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Button Tool</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    .box { position: relative; display: inline-block; margin: 10px; }
+    .tip { 
+      visibility: hidden; width: 120px; background-color: black; color: #fff; 
+      text-align: center; border-radius: 6px; padding: 5px; position: absolute; 
+      bottom: 125%; left: 50%; transform: translateX(-50%); z-index: 1; opacity: 0; 
+      transition: opacity 0.3s; 
+    }
+    .box:hover .tip { visibility: visible; opacity: 1; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Open Other Page Button -->
+  <div class="box">
+    <button onclick="openOtherPage()">Open Page</button>
+    <span class="tip">Opens another HTML file</span>
+  </div>
+
+  <!-- Download Script Button -->
+  <div class="box">
+    <button onclick="downloadScript()">Download</button>
+    <span class="tip">Saves the script file</span>
+  </div>
+
+  <!-- Keep Open Button -->
+  <div class="box">
+    <button id="stayBtn" onclick="toggleStayOpen()">Pin Window</button>
+    <span class="tip">Stops auto close</span>
+  </div>
+
+<script>
+  let keepOpen = false;
+
+  function openOtherPage() {
+    window.location.href = "other-page.html";
+  }
+
+  function downloadScript() {
+    const textData = "console.log('Hello from the downloaded script!');";
+    const blob = new Blob([textData], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'myscript.js';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function toggleStayOpen() {
+    keepOpen = !keepOpen;
+    const btn = document.getElementById('stayBtn');
+    btn.style.background = keepOpen ? 'lightgreen' : '';
+    if (keepOpen) {
+      window.addEventListener('beforeunload', stopClose);
+    } else {
+      window.removeEventListener('beforeunload', stopClose);
+    }
+  }
+
+  function stopClose(e) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+</script>
+
+</body>
+</html>
