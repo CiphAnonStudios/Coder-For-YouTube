@@ -13,19 +13,18 @@
     }
 
     .panel {
-      position: fixed;
-      top: 50%;
-      left: 0;
-      transform: translate(-278px, -50%);
-      width: 280px;
-      height: 400px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      border-radius: 0 12px 12px 0;
-      padding: 20px;
-      box-sizing: border-box;
-      transition: transform 0.3s ease-out;
-    }
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translate(-78px, -50%);
+    width: 80px;
+    height: 400px;
+    background-color: #231c1c;
+    border-radius: 25px 25px;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
 
     .panel.active {
       transform: translate(0, -50%);
