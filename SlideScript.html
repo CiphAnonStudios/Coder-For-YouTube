@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Proximity Slide Panel</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .panel {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      transform: translate(-260px, -50%);
+      width: 280px;
+      height: 400px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      border-radius: 0 12px 12px 0;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease-out;
+    }
+
+    .panel.active {
+      transform: translate(0, -50%);
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      color: #333333;
+    }
+
+    .panel p {
+      color: #666666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="panel" id="slidePanel">
+    <h2>Hello</h2>
+    <p>I slid over because your mouse came close to the left side of the screen.</p>
+  </div>
+
+  <script>
+    const panel = document.getElementById('slidePanel');
+    const triggerDistance = 150; // Distance in pixels from the panel
+
+    document.addEventListener('mousemove', (e) => {
+      const panelRect = panel.getBoundingClientRect();
+      
+      // Find the closest point on the panel to the mouse
+      const panelRight = panelRect.right;
+      const panelTop = panelRect.top;
+      const panelBottom = panelRect.bottom;
+
+      // Calculate horizontal distance from mouse to panel's right edge
+      let xDist = 0;
+      if (e.clientX > panelRight) {
+        xDist = e.clientX - panelRight;
+      } else if (e.clientX < panelRect.left) {
+        xDist = panelRect.left - e.clientX;
+      } else {
+        xDist = 0; // Mouse is horizontally aligned with the panel
+      }
+
+      // Calculate vertical distance if mouse is outside the top/bottom bounds
+      let yDist = 0;
+      if (e.clientY < panelTop) {
+        yDist = panelTop - e.clientY;
+      } else if (e.clientY > panelBottom) {
+        yDist = e.clientY - panelBottom;
+      }
+
+      // Total straight-line distance
+      const distance = Math.sqrt(xDist * xDist + yDist * yDist);
+
+      // Slide panel in or out based on distance
+      if (distance < triggerDistance) {
+        panel.classList.add('active');
+      } else {
+        panel.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
